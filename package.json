@@ -1,0 +1,22 @@
+{
+  "name": "hermes-video-clipper",
+  "version": "0.1.0",
+  "description": "Agent-led video clipping for Hermes: local Whisper transcription, reviewed framing, boxed captions and separate vertical Shorts.",
+  "license": "MIT",
+  "author": "CauseWhyNot-eh",
+  "repository": {"type": "git", "url": "https://github.com/CauseWhyNot-eh/hermes-video-clipper.git"},
+  "homepage": "https://github.com/CauseWhyNot-eh/hermes-video-clipper#readme",
+  "bugs": {"url": "https://github.com/CauseWhyNot-eh/hermes-video-clipper/issues"},
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "engines": {"node": ">=22"},
+  "bin": {"hermes-video-clipper": "bin/cli.cjs"},
+  "scripts": {
+    "postinstall": "node bin/cli.cjs setup",
+    "setup": "node bin/cli.cjs setup",
+    "test": "node --test test/*.test.cjs && node bin/cli.cjs test-python",
+    "test:node": "node --test test/*.test.cjs"
+  },
+  "files": ["bin/*.cjs", "scripts/*.py", "config/*.json", "skills/**/*.md", "test/*.test.cjs", "tests/*.py", "assets/fonts/Inter.ttf", "assets/fonts/OFL.txt", "tools/hyperframes/package.json", "tools/hyperframes/package-lock.json", "requirements-clipping.txt", "requirements-clipping.lock.txt", "AGENTS.md", "WORKFLOW.md", "CUSTOM_CLIPPING.md", ".hermes.md", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md"],
+  "dependencies": {"ffmpeg-static": "5.3.0", "ffprobe-static": "3.1.0", "hyperframes": "0.8.114", "gsap": "3.14.2"}
+}

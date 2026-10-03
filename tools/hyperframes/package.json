@@ -1,0 +1,9 @@
+{
+  "name": "local-clipping-renderer",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "hyperframes": "0.8.114",
+    "gsap": "3.14.2"
+  }
+}

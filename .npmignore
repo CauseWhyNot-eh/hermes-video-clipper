@@ -1,0 +1,17 @@
+.git/
+.runtime/
+.clipping-venv/
+.workflow/
+assets/models/
+assets/music/
+inputs/
+output/
+library/
+STATUS.md
+**/__pycache__/
+*.pyc
+*.tgz
+.env
+.env.*
+client_secret*.json
+token*.json

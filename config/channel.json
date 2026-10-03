@@ -1,0 +1,36 @@
+{
+  "name": "My channel",
+  "default_channel": "innovation",
+  "niche": "business_technology_innovation",
+  "channels": {
+    "innovation": {"name": "My channel", "niche": "business_technology_innovation", "handle": null},
+    "fitness": {"name": null, "niche": "fitness", "handle": null},
+    "whop": {"name": null, "niche": "campaign_clipping", "handle": null}
+  },
+  "workflow_mode": "agent_led_clipping",
+  "preparation_tool": "custom_agent_led",
+  "pipeline_script": "scripts/clipping_pipeline.py",
+  "pipeline_python": ".clipping-venv/Scripts/python.exe",
+  "make_compilations": false,
+  "additional_voiceover": false,
+  "additional_b_roll": false,
+  "automatic_publication": false,
+  "source_clip_policy": {"automatic_finished_clips": 5, "additional_text_only_ideas": 10, "additional_clips_require_user_choice": true, "shortfall_policy": "explain genuine shortfalls; never pad"},
+  "visible_choice_fields": ["name", "topic", "duration", "source"],
+  "retention": {"ask_after_each_finished_clip": true, "includes_chosen_extras": true, "default_if_unanswered": "keep", "shared_source_requires_dependency_review": true, "protect_current_finals_and_sidecars": true, "automatic_deletion": false},
+  "captions": {"font": "Inter", "fill": "#000000", "outline": null, "box_fill": "#FFFFFF", "box_padding": "16px 24px", "important_word_highlighting": false},
+  "watermark": {"asset": null, "text": null},
+  "music_manifest": "assets/music/manifest.json",
+  "music_preference": {
+    "source": "user_supplied", "input_directory": "inputs/music", "volume": 0.2,
+    "track_volume_overrides": {},
+    "entry_policy": "cached waveform/onset cues; persist entry offsets; never retime speech",
+    "video_policy": "audio only; no music-source video in composition"
+  },
+  "delivery": {"mode": "local_files", "final_directory": "output/final", "user_uploads_manually": true},
+  "ai": {
+    "provider": "builder_session", "api_key_status": "not_required",
+    "transcription": {"provider": "faster_whisper", "device": "cpu", "model": "small", "compute_type": "int8", "word_timestamps": true},
+    "framing": {"detector": "mediapipe_tasks", "automatic_active_speaker": false}
+  }
+}
