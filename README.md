@@ -24,7 +24,7 @@ No compilations, invented voiceover, added B-roll, automatic uploads, paid LLM A
 ## Requirements
 
 - **Native Windows x64**. macOS, Linux, ARM64, WSL and Docker are not supported by this release.
-- **Node.js 22 or later**, npm, and Git for installation from GitHub.
+- **Node.js 22 or later** and npm. Git is needed only for the development clone route.
 - An installed **Hermes Agent** for the agent-led workflow: https://hermes-agent.nousresearch.com/docs/
 - Internet access during installation and enough disk space for Python, ML dependencies, models and browser downloads. Expect a substantial first install; an hour-long video is not a small workload.
 
@@ -35,10 +35,10 @@ You do **not** need to install Python, Whisper or FFmpeg manually. Hermes itself
 From PowerShell, Command Prompt or Git Bash:
 
 ```bash
-npm install --global git+https://github.com/CauseWhyNot-eh/hermes-video-clipper.git
+npm install --global https://github.com/CauseWhyNot-eh/hermes-video-clipper/archive/refs/heads/main.tar.gz
 ```
 
-This installs directly from this GitHub repository. It is **not** an npm-registry publication; `npm install hermes-video-clipper` is not the documented installation route.
+This installs the public HTTPS source archive directly from this GitHub repository, avoiding npm's Git/SSH cloning path. It is **not** an npm-registry publication; `npm install hermes-video-clipper` is not the documented installation route.
 
 The npm postinstall step sets up:
 
