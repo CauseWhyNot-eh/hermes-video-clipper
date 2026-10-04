@@ -740,9 +740,37 @@ def check(job_path):
     return results
 
 
+def export_path(job, clip):
+    folder = Path(job['root']) / ('output/verification' if job['verification_only'] else 'output/final')
+    channel = job.get('channel', {}).get('id')
+    if channel:
+        if not re.fullmatch(r'[a-z0-9-]+', channel):
+            raise ValueError('Unsafe export destination')
+        folder = folder / channel
+    saved = job.setdefault('output_paths', {}).get(clip['id'])
+    if saved:
+        output = Path(saved)
+        if output.parent.resolve() != folder.resolve() or output.suffix != '.mp4':
+            raise ValueError('Saved export path is outside the destination')
+        return output
+    title = re.sub(r'[<>:"/\\|?*\x00-\x1f]', ' ', clip['name'])
+    title = ' '.join(title.split()).strip(' .')[:100].rstrip(' .') or 'Untitled clip'
+    if re.fullmatch(r'CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³]', title.split('.')[0], flags=re.I):
+        title = 'Clip - ' + title
+    number = 1
+    while True:
+        stem = title if number == 1 else f'{title} ({number})'
+        if not any((folder / (stem + suffix)).exists() for suffix in
+                   ('.mp4', '.srt', '.receipt.json', '.music-credit.json', '.partial.mp4')):
+            output = folder / (stem + '.mp4')
+            job['output_paths'][clip['id']] = str(output)
+            return output
+        number += 1
+
+
 def render(job_path):
     results = []
-    with stage(job_path, 'render') as job:
+    with stage(job_path, 'render') as job, file_lock(Path(job['root']) / '.workflow/clipping/locks/export-names.lock'):
         for clip in job['clips']:
             existing = cached(job, 'render:' + clip['id'])
             if existing:
@@ -758,13 +786,13 @@ def render(job_path):
             if sha256(directory / 'framing.json') != job['stages']['composition:' + clip['id']]['framing_sha256']:
                 raise ValueError('Framing changed after composition')
             root = Path(job['root'])
-            output_dir = root / ('output/verification' if job['verification_only'] else 'output/final')
-            if job.get('channel'):
-                output_dir = output_dir / job['channel']['id']
-            output_dir = output_dir / job['id']
-            output_dir.mkdir(parents=True, exist_ok=True)
-            output = output_dir / (clip['id'] + '.mp4')
-            partial = output_dir / (clip['id'] + '.partial.mp4')
+            output = export_path(job, clip)
+            if any(path.exists() for path in (output, output.with_suffix('.srt'),
+                                             output.with_suffix('.receipt.json'), output.with_suffix('.music-credit.json'))):
+                raise ValueError('Export already exists without a valid checkpoint; refusing to overwrite it')
+            output.parent.mkdir(parents=True, exist_ok=True)
+            save_json(job_path, job)  # Keep the allocated title stable across interrupted renders.
+            partial = output.with_name(output.stem + '.partial.mp4')
             hf(root, ['render', str(artifact.parent), '-o', str(partial), '--fps', '30', '--workers', '1',
                       '--quality', 'delivery', '--strict', '--no-best-effort', '--low-memory-mode',
                       '--frames-cache-dir', str(SCRATCH / 'hyperframes-frames')], log=directory / 'render.log')

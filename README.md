@@ -16,6 +16,7 @@ The default workflow finishes the **five strongest distinct clips**, then offers
 - Black **Inter captions in a padded white box**, using original speaker audio.
 - Optional user-supplied music: audio-only extraction, shuffled rotation, configurable gains, cached waveform/onset entry cues and persisted offsets.
 - Separate **1080×1920, 30 fps** MP4 delivery, SRT subtitles, source/QA receipts and music provenance.
+- Human-readable exports: `output/final/<destination>/<Clip Title>.mp4`, not random job-ID folders. Sidecars match the title; duplicate names get `(2)`, `(3)`, etc., without overwriting. No output or personal destination folder is included in the repository.
 - Actual headless-browser/layout checks before delivery rendering and full output decode afterward.
 - A mandatory cleanup question after **every finished clip, including chosen extras**. No answer means keep. A read-only storage report highlights sizes and shared-source dependencies.
 

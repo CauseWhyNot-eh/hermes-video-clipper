@@ -17,7 +17,7 @@ Every command below uses `hermes-video-clipper pipeline --workspace PATH` follow
 
 ## Paths and cleanup
 
-Jobs: library/manifests/clipping/<id>/job.json. Finals: output/final/<channel>/<job>/. Test-only intake --verification-only routes away from final content. Separate --revision identities protect existing work.
+Jobs: library/manifests/clipping/<id>/job.json. Finals: `output/final/<channel>/<Title>.mp4`, with matching SRT/receipt/credit basenames and no opaque job-ID output folder. Windows-unsafe filename characters are removed; duplicate titles receive `(2)`, `(3)`, etc. Saved allocations and an export lock protect retries and concurrent jobs from overwriting. Test-only intake --verification-only uses output/verification/<channel>/<Title>.mp4. Separate --revision identities protect existing work. No output or personal destination folder is committed; init creates only empty output/final and rendering creates the selected channel directory.
 
 After **every finished clip**, including chosen extras, ask whether to delete source/transcript/work. `hermes-video-clipper retention --workspace PATH JOB` reports sizes and source dependencies; it deletes nothing. Explain remaining extras/revisions, get exact scope approval, protect finals/sidecars/music/models/code/catalogue, reject out-of-scope targets and links, save a receipt and verify protected hashes. No answer means keep.
 
